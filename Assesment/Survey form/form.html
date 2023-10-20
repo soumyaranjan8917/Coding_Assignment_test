@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Survey Form</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('survey_background.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #020202;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(159, 11, 218, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(238, 234, 234, 0.993);
+            border: #030202;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select,
+        input[type="email"],
+        input[type="tel"] {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #030202;
+            border-radius: 5px;
+        }
+
+        .gender-label {
+            margin-right: 20px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgb(224, 221, 7);
+        }
+
+        .popup-content {
+            background: rgb(230, 146, 223);
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .popup button {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .submit-button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .reset-button {
+            background-color: #FF0000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .reset-button:hover {
+            background-color: #CC0000;
+        }
+
+        .satisfaction-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Customer Survey Form</h2>
+        <form id="surveyForm">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <select id="country" name="country" required>
+                    <option value="" disabled selected>Select a country</option>
+                    <option value="USA">USA</option>
+                    <option value="Canada">Canada</option>
+                    <option value="INDIA">INDIA</option>
+                    <option value="CHINA">CHINA</option>
+                    <option value="RUSSIA">RUSSIA</option>
+                    <option value="THAILAND">THAILAND</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Gender:</label>
+                <label class="gender-label">
+                    <input type="checkbox" name="gender" value="Male"> Male
+                </label>
+                <label class="gender-label">
+                    <input type="checkbox" name="gender" value="Female"> Female
+                </label>
+                <!-- Add more gender options as needed -->
+            </div>
+
+            <div class="form-group">
+                <label for="profession">Profession:</label>
+                <input type="text" id="profession" name="profession" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Mobile Number:</label>
+                <input type="tel" id="mobile" name="mobile" required>
+            </div>
+            
+            
+            <div class="form-group">
+                <label for="profession">Do You Have any suggestion to improve our service:</label>
+                <input type="text" id="profession" name="profession" required>
+            </div>
+        
+            <p>
+                <div class="satisfaction-label">Is this the first time you are using our products and services?</div>
+                <input type="radio" id="Yes" name="Yes" value="Yes" required> Yes
+                <input type="radio" id="No" name="No" value="No"> No
+            </p>
+            <p>
+                <div class="satisfaction-label">How satisfied are you with our company overall?</div>
+                <input type="radio" id="satisfied" name="satisfaction" value="Satisfied" required> Satisfied
+                <input type="radio" id="undecided" name="satisfaction" value="Undecided"> Undecided
+                <input type="radio" id="unsatisfied" name="satisfaction" value="Unsatisfied"> Unsatisfied
+            </p>
+            
+            <div class="button-container">
+                <button type="button" class="reset-button" id="resetButton" onclick="resetForm()">Reset</button>
+                <button type="button" class="submit-button" id="submitButton" onclick="submitForm()">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h3>Survey Summary</h3>
+            <div id="summaryContent"></div>
+            <button class="submit-button" onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+
+    <script>
+        function resetForm() {
+            document.getElementById("surveyForm").reset();
+        }
+
+        function submitForm() {
+            // Perform form validation here
+            // Display selected values in the popup
+            const summaryContent = document.getElementById("summaryContent");
+            summaryContent.innerHTML = "";
+
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+            const dob = document.getElementById("dob").value;
+            const country = document.getElementById("country").value;
+            const genderElements = document.querySelectorAll('input[name="gender"]:checked');
+            const gender = [...genderElements].map(el => el.value).join(", ");
+            const profession = document.getElementById("profession").value;
+            const email = document.getElementById("email").value;
+            const mobile = document.getElementById("mobile").value;
+            const satisfaction = document.querySelector('input[name="satisfaction"]:checked').value;
+
+            summaryContent.innerHTML += `First Name: ${firstName}<br>`;
+            summaryContent.innerHTML += `Last Name: ${lastName}<br>`;
+            summaryContent.innerHTML += `Date of Birth: ${dob}<br>`;
+            summaryContent.innerHTML += `Country: ${country}<br>`;
+            summaryContent.innerHTML += `Gender: ${gender}<br>`;
+            summaryContent.innerHTML += `Profession: ${profession}<br>`;
+            summaryContent.innerHTML += `Email: ${email}<br>`;
+            summaryContent.innerHTML += `Mobile Number: ${mobile}<br>`;
+            summaryContent.innerHTML += `Overall Satisfaction: ${satisfaction}`;
+
+            document.getElementById("popup").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+            resetForm();
+        }
+    </script>
+</body>
+</html>
